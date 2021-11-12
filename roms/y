@@ -1,0 +1,159 @@
+L200: JP   L217               ; 1217
+L202: db #42, #4C, #49, #54
+L206: db #5A, #20, #42, #79
+L20A: db #20, #44, #61, #76
+L20E: db #69, #64, #20, #57
+L212: db #49, #4E, #54, #45
+L216: db #52
+L217: LD   I,  #341           ; A341
+      LD   V0, #04            ; 6004
+      LD   V1, #09            ; 6109
+      LD   V2, #0E            ; 620E
+      LD   V7, #04            ; 6704
+L221: DRW  V0, V1, #E         ; D01E
+      ADD  I,  V2             ; F21E
+      ADD  V0, #0C            ; 700C
+      SE   V0, #40            ; 3040
+      JP   L221               ; 1221
+      LD   V0, K              ; F00A
+L22D: CLS                     ; 00E0
+      CALL L2D9               ; 22D9
+      LD   V0, K              ; F00A
+      CLS                     ; 00E0
+      LD   VE, V7             ; 8E70
+      LD   I,  #31E           ; A31E
+L239: LD   VB, #1F            ; 6B1F
+      RND  VC, #1F            ; CC1F
+      ADD  VC, VC             ; 8CC4
+      DRW  VC, VB, #2         ; DCB2
+      SE   VF, #01            ; 3F01
+      JP   L249               ; 1249
+      DRW  VC, VB, #2         ; DCB2
+      JP   L239               ; 1239
+L249: RND  VA, #07            ; CA07
+      ADD  VA, #01            ; 7A01
+L24D: ADD  VB, #FE            ; 7BFE
+      DRW  VC, VB, #2         ; DCB2
+      ADD  VA, #FF            ; 7AFF
+      SE   VA, #00            ; 3A00
+      JP   L24D               ; 124D
+      ADD  VE, #FF            ; 7EFF
+      SE   VE, #00            ; 3E00
+      JP   L239               ; 1239
+      LD   VB, #00            ; 6B00
+      LD   VC, V7             ; 8C70
+      LD   VD, #00            ; 6D00
+      LD   VE, #00            ; 6E00
+L265: LD   I,  #31B           ; A31B
+      DRW  VD, VE, #3         ; DDE3
+      SE   VF, #00            ; 3F00
+      JP   L2C1               ; 12C1
+      SE   VB, #00            ; 3B00
+      JP   L281               ; 1281
+      LD   V0, #05            ; 6005
+      SKP V0                  ; E09E
+      JP   L287               ; 1287
+      LD   VB, #01            ; 6B01
+      LD   V8, VD             ; 88D0
+      ADD  V8, #02            ; 7802
+      LD   V9, VE             ; 89E0
+      ADD  V9, #03            ; 7903
+L281: LD   I,  #31E           ; A31E
+      DRW  V8, V9, #1         ; D891
+      LD   V1, VF             ; 81F0
+L287: LD   V0, #05            ; 6005
+      LD   DT, V0             ; F015
+L28B: LD   V0, DT             ; F007
+      SE   V0, #00            ; 3000
+      JP   L28B               ; 128B
+      SE   VB, #01            ; 3B01
+      JP   L2AB               ; 12AB
+      LD   I,  #31E           ; A31E
+      SE   V1, #01            ; 3101
+      DRW  V8, V9, #1         ; D891
+      ADD  V9, #01            ; 7901
+      SE   V9, #20            ; 3920
+      JP   L2AB               ; 12AB
+      LD   VB, #00            ; 6B00
+      SE   V1, #00            ; 3100
+      ADD  VC, #FF            ; 7CFF
+      SNE  VC, #00            ; 4C00
+      JP   L2BB               ; 12BB
+L2AB: LD   I,  #31B           ; A31B
+      DRW  VD, VE, #3         ; DDE3
+      ADD  VD, #02            ; 7D02
+      SE   VD, #40            ; 3D40
+      JP   L2B9               ; 12B9
+      LD   VD, #00            ; 6D00
+      ADD  VE, #01            ; 7E01
+L2B9: JP   L265               ; 1265
+L2BB: CLS                     ; 00E0
+      ADD  V7, #02            ; 7702
+      JP   L22D               ; 122D
+L2C1: LD   I,  #31B           ; A31B
+      DRW  VD, VE, #3         ; DDE3
+      LD   V0, #14            ; 6014
+      LD   V1, #02            ; 6102
+      LD   V2, #0B            ; 620B
+      LD   I,  #320           ; A320
+L2CD: DRW  V0, V1, #B         ; D01B
+      ADD  I,  V2             ; F21E
+      ADD  V0, #08            ; 7008
+      SE   V0, #2C            ; 302C
+      JP   L2CD               ; 12CD
+L2D7: JP   L2D7               ; 12D7
+L2D9: LD   V0, #0A            ; 600A
+      LD   V1, #0D            ; 610D
+      LD   V2, #05            ; 6205
+      LD   I,  #307           ; A307
+L2E1: DRW  V0, V1, #5         ; D015
+      ADD  I,  V2             ; F21E
+      ADD  V0, #08            ; 7008
+      SE   V0, #2A            ; 302A
+      JP   L2E1               ; 12E1
+      LD   V0, V7             ; 8070
+      ADD  V0, #FE            ; 70FE
+      SHR  V0, V0             ; 8006
+      LD   I,  #387           ; A387
+      LD   B,  V0             ; F033
+      LD   V2, [I]            ; F265
+      LD   V0, #2D            ; 602D
+      LD   F,  V1             ; F129
+      LD   V1, #0D            ; 610D
+      DRW  V0, V1, #5         ; D015
+      ADD  V0, #05            ; 7005
+      LD   F,  V2             ; F229
+      DRW  V0, V1, #5         ; D015
+      RET                     ; 00EE
+L307: db #83, #82, #83, #82
+L30B: db #FB, #E8, #08, #88
+L30F: db #05, #E2, #BE, #A0
+L313: db #B8, #20, #3E, #80
+L317: db #80, #80, #80, #F8
+L31B: db #80, #F8, #FC, #C0
+L31F: db #C0, #F9, #81, #DB
+L323: db #CB, #FB, #00, #FA
+L327: db #8A, #9A, #99, #F8
+L32B: db #EF, #2A, #E8, #29
+L32F: db #29, #00, #6F, #68
+L333: db #2E, #4C, #8F, #BE
+L337: db #A0, #B8, #B0, #BE
+L33B: db #00, #BE, #22, #3E
+L33F: db #34, #B2, #D8, #D8
+L343: db #00, #C3, #C3, #00
+L347: db #D8, #D8, #00, #C3
+L34B: db #C3, #00, #D8, #D8
+L34F: db #C0, #C0, #00, #C0
+L353: db #C0, #00, #C0, #C0
+L357: db #00, #C0, #C0, #00
+L35B: db #DB, #DB, #DB, #DB
+L35F: db #00, #18, #18, #00
+L363: db #18, #18, #00, #18
+L367: db #18, #00, #DB, #DB
+L36B: db #DB, #DB, #00, #18
+L36F: db #18, #00, #18, #18
+L373: db #00, #18, #18, #00
+L377: db #18, #18, #DB, #DB
+L37B: db #00, #03, #03, #00
+L37F: db #18, #18, #00, #C0
+L383: db #C0, #00, #DB, #DB
