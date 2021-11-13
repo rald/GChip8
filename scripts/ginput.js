@@ -1,4 +1,5 @@
-import Renderer from "./renderer.js"
+import Renderer from "./renderer.js";
+import Keyboard from "./keyboard.js";
 
 class GInput {
   
@@ -9,8 +10,6 @@ class GInput {
     this.touches=null;
 
     this.mouse={ x:0, y:0, isDown:false };
-    
-    this.key={ code:0, isDown:false };
 
     this.canvas.addEventListener("mousedown", (function (e) {
     	const mousePos = this.getMousePos(canvas, e);
@@ -78,21 +77,9 @@ class GInput {
     		e.preventDefault();
     	}
     }).bind(this), false);
-    
-    document.body.addEventListener("keydown", (function (e) {
-      this.key.isDown=true;
-      this.key.code=e.keyCode;
-    }).bind(this), false);
-
-    document.body.addEventListener("keyup", (function (e) {
-      this.key.isDown=false;
-      this.key.code=e.keyCode;
-    }).bind(this), false);
-
-
+  
   }
-    
-
+  
   // Get the position of the mouse relative to the canvas
   getMousePos(canvasDom, mouseEvent) {
   	let rect = canvasDom.getBoundingClientRect();

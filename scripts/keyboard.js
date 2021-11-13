@@ -1,9 +1,8 @@
 import GButton from "./gbutton.js";
 
 class Keyboard {
-  
-  constructor(renderer,font,buttonWidth,buttonHeight,alpha) {
 
+  constructor(renderer,font,buttonWidth,buttonHeight,alpha) {
 
     this.KEYMAP = {
   		49: 0x1, // 1
@@ -42,10 +41,13 @@ class Keyboard {
       "C": 67,
       "V": 86
     };
-  
+
+
     this.renderer=renderer;
     
-    this.onNextKeyPressed=null;
+    this.onNextKeyPress=null;
+    
+    this.keysPressed=[];
     
     this.font=font;
     
@@ -56,13 +58,10 @@ class Keyboard {
 
     this.buttons = [];
     
-
-    this.keysPressed=null;
-    
     this.createKeyPad();
-    
-    this.onNextKeyPress=null;
-    
+  
+    window.addEventListener("keydown",this.onKeyDown.bind(this),false);
+    window.addEventListener("keyup",this.onKeyUp.bind(this),false);
   }
 
   createKeyPad() {
@@ -86,38 +85,29 @@ class Keyboard {
   }
   
   handleEvents(gInput) {
-
-    this.keysPressed=new Array(this.buttons.length);
-    
     for(let i=0;i<this.buttons.length;i++) {
       let key=this.KEYMAP[this.BUTTON_MAP[this.buttons[i].text]];
-      this.buttons[i].handleEvents(gInput);
-      if(this.buttons[i].state==GButton.DOWN) {
-        this.keysPressed[key]=true;
-        if(this.onNextKeyPress !== null && key) {
-          this.onNextKeyPress(parseInt(key));
-          this.onNextKeyPress = null;
-        }
-      } 
-    }
-    
-    let key=this.KEYMAP[gInput.key.code];
-    if(gInput.key.isDown) {
-      this.keysPressed[key]=true;
-      if(this.onNextKeyPress !== null && key) {
-        this.onNextKeyPress(parseInt(key));
-        this.onNextKeyPress = null;
+      let code=this.BUTTON_MAP[this.buttons[i].text];
+      if(this.buttons[i].handleEvents(gInput)) {
+        window.dispatchEvent(new KeyboardEvent("keydown",{key:code}));
+      } else {
+        window.dispatchEvent(new KeyboardEvent("keyup",{key:code}));
       }
     }
-    
-    let result="";
-    for(let i=0;i<this.keysPressed.length;i++) {
-      if(i!=0) result+=", ";
-      result+=this.keysPressed[i]?"1":"0";
+  }
+  
+  onKeyDown(e) {
+    let key=this.KEYMAP[e.key];
+    this.keysPressed[key]=true;
+    if (this.onNextKeyPress!==null && key) {
+      this.onNextKeyPress(parseInt(key));
+      this.onNextKeyPress=null;
     }
-    this.renderer.state.message=result;
-    
-    
+  }
+  
+  onKeyUp(e) {
+    let key=this.KEYMAP[e.key];
+    this.keysPressed[key]=false;
   }
   
   update() {

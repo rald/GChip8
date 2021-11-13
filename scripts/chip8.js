@@ -28,8 +28,6 @@ function init() {
 
 function step() {
   
-
-    
     if(state.running) {
       
     	now = Date.now();
